@@ -11,7 +11,7 @@
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
-    
+    numbers = new Numbers(this);
     QFont bigFont;
     bigFont.setPointSize(28);
 
@@ -87,17 +87,17 @@ MainWindow::MainWindow(QWidget* parent)
     sliderC->move(400, 170);
 
     // ===== Начальные значения =====
-    editA->setText(QString::number(numbers.getA()));
-    spinA->setValue(numbers.getA());
-    sliderA->setValue(numbers.getA());
+    editA->setText(QString::number(numbers->getA()));
+    spinA->setValue(numbers->getA());
+    sliderA->setValue(numbers->getA());
 
-    editB->setText(QString::number(numbers.getB()));
-    spinB->setValue(numbers.getB());
-    sliderB->setValue(numbers.getB());
+    editB->setText(QString::number(numbers->getB()));
+    spinB->setValue(numbers->getB());
+    sliderB->setValue(numbers->getB());
 
-    editC->setText(QString::number(numbers.getC()));
-    spinC->setValue(numbers.getC());
-    sliderC->setValue(numbers.getC());
+    editC->setText(QString::number(numbers->getC()));
+    spinC->setValue(numbers->getC());
+    sliderC->setValue(numbers->getC());
 
     setWindowTitle("Step QLineEdit");
     resize(580, 260);
@@ -105,66 +105,68 @@ MainWindow::MainWindow(QWidget* parent)
     connect(spinA, QOverload<int>::of(&QSpinBox::valueChanged),//меняем cпин бокс и меняется везде
         this, [this](int value)
         {
-            numbers.setA(value);
-            updateA();
+            numbers->setA(value);
         });
 
     connect(sliderA, &QSlider::valueChanged, //меняем слайдер и меняется везде
         this, [this](int value)
         {
-            numbers.setA(value);
-            updateA();
+            numbers->setA(value);
         });
     connect(editA, &QLineEdit::editingFinished,//меняем текст и меняется везде
         this, [this]()
         {
-            numbers.setA(editA->text().toInt());
-            updateA();
+            numbers->setA(editA->text().toInt());
         });
     connect(spinB, QOverload<int>::of(&QSpinBox::valueChanged),//меняем cпин бокс и меняется везде
         this, [this](int value)
         {
-            numbers.setB(value);
+            numbers->setB(value);
             updateB();
         });
 
     connect(sliderB, &QSlider::valueChanged, //меняем слайдер и меняется везде
         this, [this](int value)
         {
-            numbers.setB(value);
+            numbers->setB(value);
             updateB();
         });
     connect(editB, &QLineEdit::editingFinished,//меняем текст и меняется везде
         this, [this]()
         {
-            numbers.setB(editB->text().toInt());
+            numbers->setB(editB->text().toInt());
             updateB();
         });
 
     connect(spinC, QOverload<int>::of(&QSpinBox::valueChanged),//меняем cпин бокс и меняется везде
         this, [this](int value)
         {
-            numbers.setC(value);
-            updateC();
+            numbers->setC(value);
         });
 
     connect(sliderC, &QSlider::valueChanged, //меняем слайдер и меняется везде
         this, [this](int value)
         {
-            numbers.setC(value);
-            updateC();
+            numbers->setC(value);
         });
     connect(editC, &QLineEdit::editingFinished,//меняем текст и меняется везде
         this, [this]()
         {
-            numbers.setC(editC->text().toInt());
+            numbers->setC(editC->text().toInt());
+        });
+    connect(numbers, &Numbers::dataChanged,
+        this, [this]()
+        {
+            updateA();
+            updateB();
             updateC();
         });
+
 }
 
 void MainWindow::updateA()
 {
-    int value = numbers.getA();
+    int value = numbers->getA();
 
     editA->setText(QString::number(value));
     spinA->setValue(value);
@@ -172,7 +174,7 @@ void MainWindow::updateA()
 }
 void MainWindow::updateB()
 {
-    int value = numbers.getB();
+    int value = numbers->getB();
 
     editB->setText(QString::number(value));
     spinB->setValue(value);
@@ -180,7 +182,7 @@ void MainWindow::updateB()
 }
 void MainWindow::updateC()
 {
-    int value = numbers.getC();
+    int value = numbers->getC();
 
     editC->setText(QString::number(value));
     spinC->setValue(value);

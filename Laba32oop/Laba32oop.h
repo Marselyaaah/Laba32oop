@@ -14,7 +14,7 @@ public:
     MainWindow(QWidget* parent = nullptr);
 
 private:
-    Numbers numbers;
+    Numbers* numbers;
     QLineEdit* editA;
     QSpinBox* spinA;
     QSlider* sliderA;
