@@ -19,6 +19,9 @@ void Numbers::setA(int value)
         value = 100;
 
     a = value;
+
+    if (b < a)
+        b = a;
 }
 
 void Numbers::setB(int value)
@@ -27,6 +30,11 @@ void Numbers::setB(int value)
         value = 0;
     if (value > 100)
         value = 100;
+
+    if (value < a)
+        value = a;
+    if (value > c)
+        value = c;
 
     b = value;
 }
@@ -39,4 +47,7 @@ void Numbers::setC(int value)
         value = 100;
 
     c = value;
+
+    if (b > c)
+        b = c;
 }
