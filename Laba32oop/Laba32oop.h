@@ -1,16 +1,32 @@
-#pragma once
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-#include <QtWidgets/QMainWindow>
-#include "ui_Laba32oop.h"
-
-class Laba32oop : public QMainWindow
+#include <QMainWindow>
+#include <QLineEdit>
+#include "Numbers.h"
+#include <QSpinBox>
+#include <QSlider>
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    Laba32oop(QWidget *parent = nullptr);
-    ~Laba32oop();
+    MainWindow(QWidget* parent = nullptr);
 
 private:
-    Ui::Laba32oopClass ui;
+    Numbers numbers;
+    QLineEdit* editA;
+    QSpinBox* spinA;
+    QSlider* sliderA;
+    QLineEdit* editB;
+    QSpinBox* spinB;
+    QSlider* sliderB;
+    QLineEdit* editC;
+    QSpinBox* spinC;
+    QSlider* sliderC;
+    void updateA();
+    void updateB();
+    void updateC();
 };
+
+#endif // MAINWINDOW_H
