@@ -3,10 +3,6 @@
 Numbers::Numbers(QObject* parent)
     : QObject(parent)
 {
-    a = 0;
-    b = 0;
-    c = 0;
-
     loadFromFile();
 }
 
@@ -126,8 +122,6 @@ void Numbers::loadFromFile()
     if (c < b)
         c = b;
 
-    if (a != oldA || b != oldB || c != oldC)
-        emit dataChanged();
 }
 
 void Numbers::saveToFile() const
@@ -138,4 +132,13 @@ void Numbers::saveToFile() const
         return;
 
     file << a << ' ' << b << ' ' << c;
+}
+int Numbers::getMin() const
+{
+    return 0;
+}
+
+int Numbers::getMax() const
+{
+    return 100;
 }

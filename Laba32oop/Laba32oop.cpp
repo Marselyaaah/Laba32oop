@@ -46,12 +46,12 @@ MainWindow::MainWindow(Numbers* numbers_, QWidget* parent)
     editA->move(40, 95);
 
     spinA = new QSpinBox(this);
-    spinA->setRange(0, 100);
+    spinA->setRange(numbers->getMin(), numbers->getMax());
     spinA->resize(120, 28);
     spinA->move(40, 130);
 
     sliderA = new QSlider(Qt::Horizontal, this);
-    sliderA->setRange(0, 100);
+    sliderA->setRange(numbers->getMin(), numbers->getMax());
     sliderA->resize(120, 24);
     sliderA->move(40, 170);
 
@@ -61,12 +61,12 @@ MainWindow::MainWindow(Numbers* numbers_, QWidget* parent)
     editB->move(220, 95);
 
     spinB = new QSpinBox(this);
-    spinB->setRange(0, 100);
+    spinB->setRange(numbers->getMin(), numbers->getMax());
     spinB->resize(120, 28);
     spinB->move(220, 130);
 
     sliderB = new QSlider(Qt::Horizontal, this);
-    sliderB->setRange(0, 100);
+    sliderB->setRange(numbers->getMin(), numbers->getMax());
     sliderB->resize(120, 24);
     sliderB->move(220, 170);
 
@@ -76,27 +76,14 @@ MainWindow::MainWindow(Numbers* numbers_, QWidget* parent)
     editC->move(400, 95);
 
     spinC = new QSpinBox(this);
-    spinC->setRange(0, 100);
+    spinC->setRange(numbers->getMin(), numbers->getMax());
     spinC->resize(120, 28);
     spinC->move(400, 130);
 
     sliderC = new QSlider(Qt::Horizontal, this);
-    sliderC->setRange(0, 100);
+    sliderC->setRange(numbers->getMin(), numbers->getMax());
     sliderC->resize(120, 24);
     sliderC->move(400, 170);
-
-    // ===== Начальные значения =====
-    editA->setText(QString::number(numbers->getA()));
-    spinA->setValue(numbers->getA());
-    sliderA->setValue(numbers->getA());
-
-    editB->setText(QString::number(numbers->getB()));
-    spinB->setValue(numbers->getB());
-    sliderB->setValue(numbers->getB());
-
-    editC->setText(QString::number(numbers->getC()));
-    spinC->setValue(numbers->getC());
-    sliderC->setValue(numbers->getC());
 
     setWindowTitle("Step QLineEdit");
     resize(580, 260);
@@ -112,29 +99,32 @@ MainWindow::MainWindow(Numbers* numbers_, QWidget* parent)
         {
             numbers->setA(value);
         });
+
     connect(editA, &QLineEdit::editingFinished,//меняем текст и меняется везде
         this, [this]()
         {
             numbers->setA(editA->text().toInt());
         });
+
     connect(spinB, QOverload<int>::of(&QSpinBox::valueChanged),//меняем cпин бокс и меняется везде
         this, [this](int value)
         {
             numbers->setB(value);
-            updateB();
+            updateView();
         });
 
     connect(sliderB, &QSlider::valueChanged, //меняем слайдер и меняется везде
         this, [this](int value)
         {
             numbers->setB(value);
-            updateB();
+            updateView();
         });
+
     connect(editB, &QLineEdit::editingFinished,//меняем текст и меняется везде
         this, [this]()
         {
             numbers->setB(editB->text().toInt());
-            updateB();
+            updateView();
         });
 
     connect(spinC, QOverload<int>::of(&QSpinBox::valueChanged),//меняем cпин бокс и меняется везде
@@ -148,42 +138,37 @@ MainWindow::MainWindow(Numbers* numbers_, QWidget* parent)
         {
             numbers->setC(value);
         });
+
     connect(editC, &QLineEdit::editingFinished,//меняем текст и меняется везде
         this, [this]()
         {
             numbers->setC(editC->text().toInt());
         });
+
     connect(numbers, &Numbers::dataChanged,
         this, [this]()
         {
-            updateA();
-            updateB();
-            updateC();
+            updateView();
         });
 
+    updateView();
 }
 
-void MainWindow::updateA()
+void MainWindow::updateView()
 {
-    int value = numbers->getA();
+    updateCount++;
+    qDebug() << "updateView called =" << updateCount;
 
-    editA->setText(QString::number(value));
-    spinA->setValue(value);
-    sliderA->setValue(value);
-}
-void MainWindow::updateB()
-{
-    int value = numbers->getB();
+    editA->setText(QString::number(numbers->getA()));
+    editB->setText(QString::number(numbers->getB()));
+    editC->setText(QString::number(numbers->getC()));
 
-    editB->setText(QString::number(value));
-    spinB->setValue(value);
-    sliderB->setValue(value);
-}
-void MainWindow::updateC()
-{
-    int value = numbers->getC();
+    spinA->setValue(numbers->getA());
+    spinB->setValue(numbers->getB());
+    spinC->setValue(numbers->getC());
 
-    editC->setText(QString::number(value));
-    spinC->setValue(value);
-    sliderC->setValue(value);
+    sliderA->setValue(numbers->getA());
+    sliderB->setValue(numbers->getB());
+    sliderC->setValue(numbers->getC());
+
 }

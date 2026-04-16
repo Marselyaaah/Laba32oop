@@ -15,18 +15,21 @@ public:
 
 private:
     Numbers* numbers;
+
     QLineEdit* editA;
     QSpinBox* spinA;
     QSlider* sliderA;
+
     QLineEdit* editB;
     QSpinBox* spinB;
     QSlider* sliderB;
+
     QLineEdit* editC;
     QSpinBox* spinC;
     QSlider* sliderC;
-    void updateA();
-    void updateB();
-    void updateC();
+
+    int updateCount = 0;
+    void updateView();
 };
 
 #endif // MAINWINDOW_H

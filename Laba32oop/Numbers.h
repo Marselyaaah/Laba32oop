@@ -19,7 +19,8 @@ public:
     void setA(int value);
     void setB(int value);
     void setC(int value);
-
+    int getMin() const;
+    int getMax() const;
 signals:
     void dataChanged(); 
 
