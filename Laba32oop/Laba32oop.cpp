@@ -8,10 +8,9 @@
 #include <QLineEdit>
 #include <QSpinBox>
 
-MainWindow::MainWindow(QWidget* parent)
-    : QMainWindow(parent)
+MainWindow::MainWindow(Numbers* numbers_, QWidget* parent)
+    : QMainWindow(parent), numbers(numbers_)
 {
-    numbers = new Numbers(this);
     QFont bigFont;
     bigFont.setPointSize(28);
 

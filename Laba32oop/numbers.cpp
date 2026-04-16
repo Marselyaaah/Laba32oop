@@ -38,8 +38,9 @@ void Numbers::setA(int value)
     if (c < b)
         c = b;
 
-    if (a != oldA || b != oldB || c != oldC)
+    if (a != oldA || b != oldB || c != oldC) {
         emit dataChanged();
+    }
 }
 
 void Numbers::setB(int value)
@@ -60,8 +61,9 @@ void Numbers::setB(int value)
 
     b = value;
 
-    if (a != oldA || b != oldB || c != oldC)
+    if (a != oldA || b != oldB || c != oldC) {
         emit dataChanged();
+    }
 }
 
 void Numbers::setC(int value)
@@ -83,8 +85,9 @@ void Numbers::setC(int value)
     if (a > b)
         a = b;
 
-    if (a != oldA || b != oldB || c != oldC)
+    if (a != oldA || b != oldB || c != oldC) {
         emit dataChanged();
+    }
 }
 
 
@@ -93,7 +96,9 @@ void Numbers::loadFromFile()
     std::ifstream file("numbers.txt");
 
     int fileA, fileB, fileC;
-
+    int oldA = a;
+    int oldB = b;
+    int oldC = c;
     if (!(file >> fileA >> fileB >> fileC))
     {
         a = 0;
@@ -102,9 +107,27 @@ void Numbers::loadFromFile()
         return;
     }
 
-    setA(fileA);
-    setB(fileB);
-    setC(fileC);
+    if (fileA < 0) fileA = 0;
+    if (fileA > 100) fileA = 100;
+
+    if (fileB < 0) fileB = 0;
+    if (fileB > 100) fileB = 100;
+
+    if (fileC < 0) fileC = 0;
+    if (fileC > 100) fileC = 100;
+
+    a = fileA;
+    b = fileB;
+    c = fileC;
+
+    if (b < a)
+        b = a;
+
+    if (c < b)
+        c = b;
+
+    if (a != oldA || b != oldB || c != oldC)
+        emit dataChanged();
 }
 
 void Numbers::saveToFile() const

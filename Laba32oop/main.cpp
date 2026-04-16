@@ -4,7 +4,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    Numbers* numbers = new Numbers(&a);
+    MainWindow w(numbers);
     w.show();
     return a.exec();
 }
